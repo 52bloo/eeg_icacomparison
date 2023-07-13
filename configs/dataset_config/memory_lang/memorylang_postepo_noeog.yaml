@@ -1,0 +1,83 @@
+# for reference in dataset config
+experiment_name: ica vs noica perfomance comparison
+# used in save-name prefix, identification later in reading results, etc..
+# Things like sampling rate will be addressed in separate parameters below for filename conventions!
+dataset_name: memorylang_post_noeog
+
+# dataset paths for each runset. ica is mostly empty, as it is for manual ica rejection results
+datapaths:
+  noica: d:/data/cogsysbci/noica/language_memory/
+  runica_mara: d:/data/cogsysbci/runica_mara_ready/language_memory/
+  runica_iclabel: d:/data/cogsysbci/runica_iclabel_ready/language_memory/
+  amica_mara: d:/data/cogsysbci/amica_mara_ready/language_memory/
+  amica_iclabel: d:/data/cogsysbci/amica_iclabel_ready/language_memory/
+
+# used for reading filename
+datafiles_prefix: subj_
+sampling_rate: 100
+
+# I forgot what this flag was used for in the previous version
+# used to reference x variable within data file
+data_pair: False
+pair_dim: 0 # since it occurs before re-ordering, time is 1st(0) and chan is 2nd(1)
+
+# in some datasets, test and train are split sessions so the data is already split
+train_test_is_split: False
+
+# we'll force the code to use x_train_varname and x_test_varname if they are split
+# otherwise we'll force the use of x_data_varname
+x_data_varname: x_data
+x_train_varname: x_data
+x_test_varname: x_data
+
+# used to reference y variable within data file, also follows train_test_is_split flag
+y_data_varname: y_nextday
+y_train_varname: y_nextday
+y_test_varname: y_nextday
+
+# number of classes
+output_classn: 2
+
+# participant count
+participants_in_data: 15
+
+#  N x chan x time is ideal for both pytorch and braindecode
+#  python however prefers N x 1 x chan x time (dim 2 is the dimension for convolutional network channel, not eeg channel)
+#  But for LSTMs N x time x channel is preferred
+# since there are variations, we need to reorder depending on which network we are using
+data_dim_format: N x time x channel
+
+
+# legacy parameter, unlikely to be use
+x_rearrange: False # does x need to be rearranged? (i.e. is N not in the first dimension)
+y_rearrange: False # does y need to be rearranged? (i.e. does y have more than one dimension for a single label)
+y_is_onehot: False # if y is onehot it needs to be converted into numerical first
+y_is_zeroed: False # if True, y needs to be zeroed (lowest class numerically needs to be 0)
+
+
+# flags for additional preprocessing in python code
+data_includes_eog: True
+remove_eog: True
+eog_channels: [62] # remember to use 0-centered indices
+
+# option to split pre and post (if true)
+#split_prepost:
+#  argument: True
+#  which: post
+#  zero: 125 # locked on zero
+split_time:
+  argument: True
+  start: 20
+  end: 119
+
+
+# for in-code balancing of classes (do we still balance? probably not)
+balance_dataset: False
+balance_downsample: False # for downsampling the more numerous sample (false currently leads to unimplemented upsampling)
+balance_randomsample: False # for shuffling after balancing
+
+# trimming options
+# for using classes that don't correspond to all trials (e.g. specific lie data, visual-memory data memory labels)
+trim_data: False
+trim_classes: [1,2] # classes that should remain (0-index)
+

@@ -1,0 +1,25 @@
+# network name
+network_name: eegnetv4_hpsearch
+network_type: eegnetv4
+sampling_rate: 100hz
+
+
+# network specific params##
+# if it's in array form there's a good chance it's hp search
+param_space:
+  module__final_conv_length: ['auto'] # final conv layer output length. default: auto
+  module__F1: [4, 8, 16] # Filter depth layer 1 (time dim) default: 8
+  module__D: [2, 4, 8] # Filter depth layer 2 (spatial channel dim) default: 2
+  module__F2: [8, 16, 24] # Filter depth layer 3 (pointwise) default: 16
+  module__kernel_length: [8, 16, 24] # kernel size for first layer (time dim- 1dim) default:64
+  module__third_kernel_size: [!!python/tuple [8,4], !!python/tuple [4,2], !!python/tuple [2,4]] # kernel size for last layer (2-dim) default: (8,4)
+  #module__drop_prob: [0.25] # dropout probability # keep same as default
+
+
+# since each network may require different sets, reorder dataset dim here
+# assume that the default is N x T x C
+# (it's the shape current matlab exports are done in, and mlstm-fcn for example takes N T C)
+# braindecode wants N x C x T
+data_dim_reorder:
+  necessity: True
+  dim: [0,2,1]

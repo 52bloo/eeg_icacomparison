@@ -1,0 +1,26 @@
+# network name
+network_name: shallownet_singletest
+sampling_rate: 250hz
+
+
+# network specific params
+# if it's in array form there's a good chance it's hp search
+param_space:
+  module__final_conv_length: ['auto'] # final conv length (default : 30)
+  module__n_filters_time: [40]  # filter depth for time dimension layer (default: 40)
+  module__filter_time_length: [25] # filter kernel size for time dimension layer (default: 25)
+  module__n_filters_spat: [40] # filter depth for spatial dimension layer (default: 40)
+  module__pool_time_length: [75] # pooling layer time dimension kernel size (default: 75)
+  module__pool_time_stride: [15]  # pooling layer time dimension stride (defualt: 15)
+  module__batch_norm_alpha: [0.1] # batch normalization alpha (default: 0.1)
+  module__drop_prob: [0.5] # dropout probability # keep same as default
+
+
+
+# since each network may require different sets, reorder dataset dim here
+# assume that the default is N x T x C
+# (it's the shape current matlab exports are done in, and mlstm-fcn for example takes N T C)
+# braindecode wants N x C x T
+data_dim_reorder:
+  necessity: True
+  dim: [0,2,1]

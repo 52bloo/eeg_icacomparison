@@ -1,0 +1,30 @@
+# identification purposes
+config_name: e80
+
+# train params (invariant)
+device: cuda:0
+determinism: True
+determinism_bench: False
+
+# randomseed
+random_seed: 4224
+
+#
+epochs: 80
+learning_rate: 0.0002
+train_batch: 128
+test_batch: 128
+folds: 10
+
+
+
+
+# early stop patience
+early_stop_patience: 25
+
+# later in non-exploration code where augmentation is given as an option
+apply_aug: False
+augmentation_method:
+  name: jumping_mean
+  parameters:
+    jumping_interval: 10

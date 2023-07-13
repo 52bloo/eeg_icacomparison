@@ -1,0 +1,34 @@
+# network name
+network_name: shallownet_hpsearch
+network_type: shallownet
+sampling_rate: 100hz
+
+
+# filter channel sizes
+n_filters_time: 40 #default 40
+n_filters_spat: 40 #default 40
+
+# kernel sizes : very data time-length dependent but can also vary within a dataset, so let's put them here
+# mix match based on sampling rate and component of interest
+#filter_time_length: [15, 25, 30, 60] # default: 25, parameter filter_time_length
+#pool_time_length: 10 # default: 75, pool_time_length
+#pool_time_stride: 4 # default: 15, pool_time_stride
+#final_conv_length: [10, 20, 30]  # default:30, final_conv_length
+
+param_space:
+  module__filter_time_length: [16, 8, 4] # default 25
+  module__pool_time_length: [12, 8, 4] # default 75
+  module__pool_time_stride: [8, 4, 2] # default 15
+  module__final_conv_length: ['auto'] # default 30
+  module__n_filters_time: [40, 20] # default 40
+  module__n_filters_spat: [40, 20] # default 40
+
+
+
+# other filter and network parameters, but the above 3(4) were the ones we manipulated before
+batch_norm_alpha: 0.1 # default: 0.1, batch_norm_alpha
+drop_prob: 0.5 # default: 0.5 , drop_prob
+
+data_dim_reorder:
+  necessity: True
+  dim: [0,2,1]

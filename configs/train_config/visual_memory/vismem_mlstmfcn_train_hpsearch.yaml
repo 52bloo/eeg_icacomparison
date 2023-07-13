@@ -1,0 +1,50 @@
+# identification purposes
+config_name: e500_hpsearch_indiv
+
+# invariant params
+device: cuda:0
+determinism: True
+determinism_bench: False
+
+# randomseed
+random_seed: 4224
+
+
+# training params
+epochs: 500
+learning_rate: 0.08 # previously 0.08
+train_batch: 128
+test_batch: 128
+folds: 5
+test_portion: 0.2
+weight_decay: 0.0001 # previously 0.008
+
+trainhp_grid:
+  lr: [0.001]
+  callbacks__lr_scheduler__T_0: [10]
+  callbacks__lr_scheduler__T_mult: [6]
+  callbacks__early_stopping__patience: [240]
+
+lr_cosineAWR_T0: 10 # lr scheduler specific parameter
+lr_cosineAWR_Tm: 2
+CV_processes: 1 # number of processes for Hyperparam search
+# skorch callbacks
+sk_callbacks:
+  keywords: [lr_scheduler, patience]
+  arguments: [LRScheduler(policy=CosineAnnealingWarmRestarts, T_0=10 ),
+              20, ]
+
+# weighing losses
+weighted_xentropy: True
+
+# callback and other training arguments
+early_stop_patience: 40
+
+# later in non-exploration code where augmentation is given as an option
+apply_aug: False
+augmentation_method:
+  name: jumping_mean
+  parameters:
+    jumping_interval: 10
+
+# test

@@ -1,0 +1,24 @@
+# network name
+network_name: mlstm_fcn_hpsearch
+network_type: mlstm_fcn
+sampling_rate: 250hz
+
+
+# network specific params
+# if it's in array form there's a good chance it's hp search
+param_space:
+  module__conv1_size: [64, 128]
+  module__conv2_size: [128, 256]
+  module__conv1_kernel: [32, 24, 8]
+  module__conv2_kernel: [15, 5]
+  module__conv3_kernel: [9, 3]
+  module__lstm_hidden_size: [24, 16, 8]
+  module__lstm_num_layers: [1,2]
+
+
+
+# since each network may require different sets, reorder dataset dim here
+# assume that the default is N x T x C
+data_dim_reorder:
+  necessity: False
+  dim: [3,2,1]
