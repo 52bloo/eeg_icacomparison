@@ -1,0 +1,11 @@
+hdf5storage==0.1.18
+matplotlib==3.5.2
+pyYAML==6.0
+numpy==1.21.5
+pandas==1.4.4
+scikit-learn=1.0.2
+scipy==1.7.3
+skorch==0.12.0
+statsmodels==0.13.2
+torch==1.12.1
+Braindecode==0.6
